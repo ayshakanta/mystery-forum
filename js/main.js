@@ -11,7 +11,7 @@ const displayPosts = posts => {
 
 
     posts.forEach(post => {
-        console.log(post)
+        // console.log(post)
         const allPostContainer = document.getElementById('allPost-container')
 
         
@@ -22,7 +22,7 @@ const displayPosts = posts => {
         postCard.innerHTML = `
             <div class=" relative">
                 <div class=" w-14 h-14 "><img class="rounded-lg" src="${post.image}" alt=""></div>
-                <div id="active-color" class="w-4 h-4 rounded-full bg-[#10B981] absolute  top-0  bottom-0 right-0"></div>
+                <div id="active-color" class="w-4 h-4 rounded-full ${post.isActive?'bg-[#10B981]' : 'bg-red-600'}  absolute  top-0  bottom-0 right-0"></div>
 
             </div>
             <div class="space-y-4">
@@ -67,23 +67,8 @@ const displayPosts = posts => {
 
     })
 
-    for(let post of posts){
-        if(post.isActive === true){
-            document.getElementById('active-color').classList.add('bg-[#10B981]')
-        }
-        else{
-            document.getElementById('active-color').classList.remove('bg-[#10B981]')
-            document.getElementById('active-color').classList.add('bg-red-600')
-    
-        }
-    }
-        
-    
-
 
     toggleLoadingSpinner(false)
-
-    
 
 }
 
@@ -116,6 +101,47 @@ const addReadPosts = async (title) => {
     
 }
 
+// latest post 
+const addLatestPost = async () =>{
+    const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/latest-posts')
+    const data = await res.json()
+    displayLatestPosts(data)
+}
+
+const displayLatestPosts = posts =>{
+    posts.forEach(post =>{
+        console.log(post)
+        const latestPostContainer = document.getElementById('latestPost-container')
+
+        const latestPostDiv = document.createElement('div')
+        latestPostDiv.classList = `space-y-4 border-2 p-8 border-[#12132D26] mt-10 rounded-3xl`
+        latestPostDiv.innerHTML= `
+        <div>
+            <img class="rounded-3xl " src="${post.cover_image}" alt="">
+        </div>
+        <div class="space-y-4">
+            <div class="flex gap-2">
+                <div><img src="images/date.png" alt=""></div>
+                <p>${post.author.posted_date? post.author.posted_date : 'No published date'}</p>
+            </div>
+            <div>
+                <h3 class="font-extrabold">${post.title}</h3>
+                <p>${post.description}</p>
+            </div>
+            <div class="flex gap-2">
+                <div class="w-14 h-14 "><img class="rounded-full" src="${post.profile_image}" alt=""></div>
+                <div>
+                    <h4 class="font-bold">${post.author.name}</h4>
+                    <p>${post.author.designation? post.author.designation : 'Unknown'}</p>
+                </div>
+            </div>
+        </div>
+        `;
+
+        latestPostContainer.appendChild(latestPostDiv)
+    })
+}
+
 
 
 
@@ -145,5 +171,10 @@ const toggleLoadingSpinner = (isLoading) => {
 
 
 
+
+
+
 loadAllPosts();
 toggleLoadingSpinner(true)
+
+addLatestPost()
