@@ -7,6 +7,8 @@ const loadAllPosts = async () => {
 
 
 
+
+
 const displayPosts = posts => {
 
 
@@ -140,6 +142,7 @@ const displayLatestPosts = posts =>{
 
         latestPostContainer.appendChild(latestPostDiv)
     })
+    
 }
 
 
@@ -155,17 +158,20 @@ const handleSearch = () => {
 
 }
 
+
 const toggleLoadingSpinner = (isLoading) => {
     const loadingSpinner = document.getElementById('loading-spinner')
     if (isLoading) {
 
-        setTimeout(() => {
-            toggleLoadingSpinner(false);
-        }, 2000)
         loadingSpinner.classList.remove('hidden')
+        
     }
     else {
-        loadingSpinner.classList.add('hidden')
+        setTimeout(() => {
+            loadingSpinner.classList.add('hidden')
+        }, 2000);
+        
+        
     }
 }
 
@@ -178,3 +184,4 @@ loadAllPosts();
 toggleLoadingSpinner(true)
 
 addLatestPost()
+
