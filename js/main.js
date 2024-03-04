@@ -6,18 +6,12 @@ const loadAllPosts = async () => {
 }
 
 
-
-
-
 const displayPosts = posts => {
 
 
     posts.forEach(post => {
         // console.log(post)
         const allPostContainer = document.getElementById('allPost-container')
-
-        
-
 
         const postCard = document.createElement("div")
         postCard.classList = `flex gap-4 bg-[#F3F3F5] p-4 rounded-lg mb-6 `
@@ -41,7 +35,7 @@ const displayPosts = posts => {
                     </li>
                 </ul>
                 <hr class="border-dashed pb-5">
-                <div class="flex justify-between">
+                <div class="flex justify-between ">
                     <div class=" flex gap-2 lg:gap-4">
                         <div class="flex gap-1 lg:gap-2">
                             <div><img class="w-5" src="images/message.png" alt=""></div>
@@ -103,6 +97,15 @@ const addReadPosts = async (title) => {
     
 }
 
+// search by category
+
+const loadByCategorySearch = async () =>{
+    const res = await fetch(`https://openapi.programming-hero.com/api/retro-forum/posts?category=${posts.category}`)
+    const data = await res.json()
+    const posts = data.category
+    handleSearch(posts)
+}
+
 // latest post 
 const addLatestPost = async () =>{
     const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/latest-posts')
@@ -154,7 +157,7 @@ const displayLatestPosts = posts =>{
 const handleSearch = () => {
     const searchField = document.getElementById('search-field')
     const searchText = searchField.value
-    console.log(searchText)
+    loadByCategorySearch(searchText)
 
 }
 
